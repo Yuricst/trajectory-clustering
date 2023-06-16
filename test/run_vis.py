@@ -14,11 +14,11 @@ if __name__=="__main__":
         data = json.load(file)
 
 
-    vislet_xy(data)
+    #vislet_xy(data)
 
-    vislet_xyz(data)
+    #vislet_xyz(data)
 
     vislet_xyt(data)
 
-    vislet_xyt_cycle(data, P=5.0)
+    #vislet_xyt_cycle(data, P=5.0)
 
