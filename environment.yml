@@ -1,0 +1,11 @@
+name: mllet
+channels:
+  - conda-forge
+  - anaconda
+dependencies:
+  - python=3.8
+  - tqdm
+  - numpy
+  - pandas
+  - matplotlib
+  - scikit-learn
