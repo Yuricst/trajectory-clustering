@@ -42,7 +42,7 @@ python clustering.py
 python visualization.py
 ```
 
-To compute the DTW distance and alignment for specific pairs of two LETs, please use the test script located in `test`. Modify the trajectory indices accordingly. 
+To compute and visualize the DTW distance and alignment for specific pairs of two LETs, please use the test script located in `test`. Modify the trajectory indices accordingly. 
 ```bash
 cd trajectory-clustering/test
 python run_dtw.py
