@@ -1,3 +1,4 @@
+"""Test script for DTW distance calculation. DTW alignment path is also visualized."""
 import os
 import sys
 import json
@@ -14,23 +15,32 @@ from src.vis import *
 
 if __name__=="__main__":
     # load file
-    data_dir = "../data"
-    filepath = os.path.join(data_dir, "lets_pre_clustering_epoch_100km_target_idx1_1757_polar8595.json")
+    filepath = "../data/lets_pre_clustering_epoch_100km_target_idx1_1757_polar8595.json"
     with open(filepath, 'r') as file:
         data = json.load(file)
 
-    for seed in range(10):
-        # Sample and visualize LET pair
-        random.seed(seed)
-        keys = random.sample(list(data.keys()), 2)
-        print("sampled keys: ", keys)
+    # Pick pairs of LET data to be visualized
+    randomize = False
+    if randomize:
+        pairs = []
+        for i in range(10):
+            keys = random.sample(list(data.keys()), 2)
+            pairs.append(keys)
+        print(pairs)
+    else:
+        pairs = [
+            ('32', '29'),  
+            ('32', '78'),
+            ('32', '92'),
+            ('32', '88'),
+            ('32', '91'),
+        ]
+
+    # Visualize the DTW distance and alignment
+    for keys in pairs:
         sampled_data = {key: data[key] for key in keys}
-        vislet_xyz(sampled_data)
-        vislet_xyt(sampled_data)
-        
         sampled_data = get4ddata(sampled_data)
         print(sampled_data.keys())
-        print(sampled_data[keys[0]].shape)
 
         # Distance between two trajectories, memory efficient
         dlet_1 = dtw(sampled_data[keys[0]], sampled_data[keys[1]], dist=dist4D)

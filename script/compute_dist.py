@@ -1,4 +1,4 @@
-"""Compute and save distance matrix"""
+"""Compute and save distance matrix of the LETs in the dataset."""
 
 import json
 import numpy as np
@@ -13,19 +13,19 @@ from src.dtw import dtw
 
 
 if __name__=="__main__":
-    data_dir = "../data"
-    filepath = os.path.join(data_dir, "lets_pre_clustering_epoch_100km_target_idx1_1757_polar8595.json")
+    # Create output directory
     out_dir = "../out"
     os.makedirs(out_dir, exist_ok=True)
 
     # load file
+    filepath = "../data/lets_pre_clustering_epoch_100km_target_idx1_1757_polar8595.json"
     with open(filepath, 'r') as file:
         data = json.load(file)
 
     # convert to 4d data
     data_4d = get4ddata(data)
 
-    # Compute distance matrix
+    # Compute distance matrix using DTW
     keys = list(data_4d.keys())
     idx_dict = {key: i for i, key in enumerate(keys)}
     n = len(keys)

@@ -11,7 +11,7 @@ cmaplist = ['darkgreen', 'red', 'purple', 'darkblue', 'orange', 'cyan', 'gray',
                      'seagreen', 'blueviolet', 'forestgreen', 'yellow', 'lightgreen']
 
 
-def vislet_xy(data):
+def vislet_xy(data, line_width:float=0.3):
     """visualize the LET in xy plane"""
     fig, ax = plt.subplots(1,1,figsize=(10,8))
 
@@ -19,14 +19,14 @@ def vislet_xy(data):
         trajectory = np.array(data[key]['states'])
         x = trajectory[:, 0]
         y = trajectory[:, 1]
-        ax.plot(x, y, linewidth=0.3)
+        ax.plot(x, y, linewidth=line_width)
 
     ax.set_aspect('equal')
     ax.set(xlabel="x, DU", ylabel="y, DU")
     plt.show()
 
 
-def vislet_xyz(data):
+def vislet_xyz(data, line_width:float=0.3):
     """visualize the LET in xyz space"""
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
@@ -37,7 +37,7 @@ def vislet_xyz(data):
         y = trajectory[:, 1]
         z = trajectory[:, 2]
 
-        ax.plot(x, y, z, linewidth=0.3)
+        ax.plot(x, y, z, linewidth=line_width)
 
     ax.set_xlabel('X, DU')
     ax.set_ylabel('Y, DU')
@@ -46,7 +46,7 @@ def vislet_xyz(data):
     plt.show()
 
 
-def vislet_xyt(data):
+def vislet_xyt(data, line_width:float=0.3):
     """visualize the LET in xy and time space"""
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
@@ -57,7 +57,7 @@ def vislet_xyt(data):
         y = trajectory[:, 1]
         time = np.array(data[key]['Î¸s'])
 
-        ax.plot(x, y, time, linewidth=0.3)
+        ax.plot(x, y, time, linewidth=line_width)
 
     ax.set_xlabel('X, DU')
     ax.set_ylabel('Y, DU')
@@ -66,7 +66,7 @@ def vislet_xyt(data):
     plt.show()
 
 
-def vislet_xyt_cycle(data, P:float=2.0 * np.pi):
+def vislet_xyt_cycle(data, P:float=2.0 * np.pi, line_width:float=0.3):
     """visualize the LET in xy and time space, but time has period P"""
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
@@ -79,13 +79,15 @@ def vislet_xyt_cycle(data, P:float=2.0 * np.pi):
 
         # Convert to cylindrical space
         theta = 2 * np.pi * time / P
-        ax.plot(x * np.cos(theta), x * np.sin(theta), y, linewidth=1.0)
+        ax.plot(x * np.cos(theta), x * np.sin(theta), y, linewidth=line_width)
 
+    ax.set_xlabel(r'$X \cos(\theta)$ [DU]')
+    ax.set_ylabel(r'$X \sin(\theta)$ [DU]')
     ax.set_zlabel('Y')
 
     # Add a circle on x=1, y=0
     theta_grid = np.linspace(0, 2 * np.pi, 100)
-    ax.plot(np.cos(theta_grid), np.sin(theta_grid), 0, 'k--', linewidth=1.0)
+    ax.plot(np.cos(theta_grid), np.sin(theta_grid), 0, 'k--', linewidth=0.5)
 
     # Add a grid plane on time=0
     x_grid = np.arange(0, ax.get_xlim()[1], 0.1)
@@ -101,7 +103,7 @@ def vislet_xyt_cycle(data, P:float=2.0 * np.pi):
 
 
 
-def vis_xyt_trajpair(x: np.ndarray, y: np.ndarray, alignment: List[Tuple[int, int]], skip: int=1):
+def vis_xyt_trajpair(x: np.ndarray, y: np.ndarray, alignment: List[Tuple[int, int]], skip: int=1, line_width:float=1.0):
     """Generate a 3D plot of two trajectories with lines between corresponding points
 
     Args:
@@ -121,8 +123,8 @@ def vis_xyt_trajpair(x: np.ndarray, y: np.ndarray, alignment: List[Tuple[int, in
     ax = fig.add_subplot(111, projection='3d')
 
     # Plot the two trajectories
-    ax.plot(x[:, 0], x[:, 1], x[:, 3], linewidth=0.3)
-    ax.plot(y[:, 0], y[:, 1], y[:, 3], linewidth=0.3)
+    ax.plot(x[:, 0], x[:, 1], x[:, 3], linewidth=line_width)
+    ax.plot(y[:, 0], y[:, 1], y[:, 3], linewidth=line_width)
 
     # Plot the lines between corresponding points
     for n, (i, j) in enumerate(alignment):
@@ -136,7 +138,7 @@ def vis_xyt_trajpair(x: np.ndarray, y: np.ndarray, alignment: List[Tuple[int, in
     plt.show()
 
 
-def vis_xyt_cycle_trajpair(x: np.ndarray, y: np.ndarray, alignment: List[Tuple[int, int]], skip: int=1, P:float=2*np.pi):
+def vis_xyt_cycle_trajpair(x: np.ndarray, y: np.ndarray, alignment: List[Tuple[int, int]], skip: int=1, P:float=2*np.pi, line_width:float=1.0):
     """Generate a 3D plot of two trajectories with lines between corresponding points
 
     Args:
@@ -160,7 +162,7 @@ def vis_xyt_cycle_trajpair(x: np.ndarray, y: np.ndarray, alignment: List[Tuple[i
     for s in [x, y]:
         # Convert to cylindrical space
         theta = 2 * np.pi * s[:, 3] / P
-        ax.plot(s[:, 0] * np.cos(theta), s[:, 0] * np.sin(theta), s[:, 1], linewidth=1.0)
+        ax.plot(s[:, 0] * np.cos(theta), s[:, 0] * np.sin(theta), s[:, 1], linewidth=line_width)
 
     # Plot the lines between corresponding points
     for n, (i, j) in enumerate(alignment):
@@ -175,24 +177,27 @@ def vis_xyt_cycle_trajpair(x: np.ndarray, y: np.ndarray, alignment: List[Tuple[i
     theta_grid = np.linspace(0, 2 * np.pi, 100)
     ax.plot(np.cos(theta_grid), np.sin(theta_grid), 0, 'k--', linewidth=1.0)
 
+    ax.set_xlabel(r'$X \cos(\theta)$ [DU]')
+    ax.set_ylabel(r'$X \sin(\theta)$ [DU]')
     ax.set_zlabel('Y, DU')
 
     plt.show()
 
 
-def vislet_xyt_group(data: dict, labels: list, idx_dict: dict, P=2*np.pi):
+def vislet_xyt_group(data: dict, cluster_dict: dict, P=2*np.pi, line_width=1.0):
     """Visualize the clustered LET in xy and time space
 
     Args:
         data (dict): a dict of LET data
-        labels (list): a list of clustering labels
-        idx_dict (dict): a dict of indices of trajectories in each cluster
+        cluster_dict (dict): a dict of cluster labels
         P (float, optional): period of time. Defaults to 2*np.pi.
     """
-    ncol = 3
-    ncl = len(np.unique(labels)) + 1  # number of clusters + 1; the first one plots all trajectories
-    nrow = int(np.ceil(ncl / ncol))
+    # get number of clusters
+    ncl = len(np.unique(list(cluster_dict.values()))) + 1  # number of clusters + 1; the first one plots all trajectories
 
+    # initialize the figure
+    ncol = 3
+    nrow = int(np.ceil(ncl / ncol))
     fig, axes = plt.subplots(nrows=nrow, ncols=ncol, figsize=(ncol * 4, nrow * 4), subplot_kw={'projection': '3d'})
     for i in range(nrow):
         for j in range(ncol):
@@ -201,7 +206,7 @@ def vislet_xyt_group(data: dict, labels: list, idx_dict: dict, P=2*np.pi):
             ax.set_ylabel('Y, DU')
             ax.set_zlabel('Time, TU')
 
-    for k, v in idx_dict.items():
+    for k, v in cluster_dict.items():
         # Plot the trajectory
         trajectory = np.array(data[k]['states'])
         x = trajectory[:, 0]
@@ -210,33 +215,33 @@ def vislet_xyt_group(data: dict, labels: list, idx_dict: dict, P=2*np.pi):
 
         # The first subplot is for all trajectories
         ax = axes[0, 0]
-        ax.plot(x, y, time, linewidth=0.8, color=cmaplist[labels[v]])
+        ax.plot(x, y, time, linewidth=line_width, color=cmaplist[v])
         ax.set_title('All trajectories')
 
         # Plot for each cluster 
-        cid = labels[v] + 1  # cluster id
-        #ax = fig.add_subplot(nrow, ncol, cid + 1, projection='3d')
+        cid = v + 1  # cluster id
         ax = axes[cid // ncol, cid % ncol]
-        ax.plot(x, y, time, linewidth=0.8, color=cmaplist[labels[v]])
+        ax.plot(x, y, time, linewidth=line_width, color=cmaplist[v])
         ax.set_title('Cluster ' + str(cid))
 
     plt.show()
 
 
 
-def vislet_xyt_cycle_group(data: dict, labels: list, idx_dict: dict, P=2*np.pi):
+def vislet_xyt_cycle_group(data: dict, cluster_dict: dict, P=2*np.pi, line_width:float=1.0):
     """Visualize the clustered LET in xy and time space, but time has period P
 
     Args:
         data (dict): a dict of LET data
-        labels (list): a list of clustering labels
-        idx_dict (dict): a dict of indices of trajectories in each cluster
+        cluster_dict (dict): a dict of cluster labels
         P (float, optional): period of time. Defaults to 2*np.pi.
     """
-    ncol = 3
-    ncl = len(np.unique(labels)) + 1  # number of clusters + 1; the first one plots all trajectories
-    nrow = int(np.ceil(ncl / ncol))
+    # get number of clusters
+    ncl = len(np.unique(list(cluster_dict.values()))) + 1  # number of clusters + 1; the first one plots all trajectories
 
+    # initialize the figure
+    ncol = 3
+    nrow = int(np.ceil(ncl / ncol))
     fig, axes = plt.subplots(nrows=nrow, ncols=ncol, figsize=(ncol * 4, nrow * 4), subplot_kw={'projection': '3d'})
     for i in range(nrow):
         for j in range(ncol):
@@ -244,9 +249,11 @@ def vislet_xyt_cycle_group(data: dict, labels: list, idx_dict: dict, P=2*np.pi):
             ax = axes[i, j]
             theta_grid = np.linspace(0, 2 * np.pi, 100)
             ax.plot(np.cos(theta_grid), np.sin(theta_grid), 0, 'k--', linewidth=1.0)
-            ax.set_zlabel('Y, DU')
+            ax.set_xlabel(r'$X \cos(\theta)$ [DU]')
+            ax.set_ylabel(r'$X \sin(\theta)$ [DU]')
+            ax.set_zlabel('Y [DU]')
 
-    for k, v in idx_dict.items():
+    for k, v in cluster_dict.items():
         # Plot the trajectory
         trajectory = np.array(data[k]['states'])
         x = trajectory[:, 0]
@@ -258,13 +265,13 @@ def vislet_xyt_cycle_group(data: dict, labels: list, idx_dict: dict, P=2*np.pi):
 
         # The first subplot is for all trajectories
         ax = axes[0, 0]
-        ax.plot(x * np.cos(theta), x * np.sin(theta), y, linewidth=0.8, color=cmaplist[labels[v]])
+        ax.plot(x * np.cos(theta), x * np.sin(theta), y, linewidth=line_width, color=cmaplist[v])
         ax.set_title('All trajectories')
 
         # Plot for each cluster
-        cid = labels[v] + 1  # cluster id
+        cid = v + 1  # cluster id
         ax = axes[cid // ncol, cid % ncol]
-        ax.plot(x * np.cos(theta), x * np.sin(theta), y, linewidth=0.8, color=cmaplist[labels[v]])
+        ax.plot(x * np.cos(theta), x * np.sin(theta), y, linewidth=line_width, color=cmaplist[v])
         ax.set_title('Cluster ' + str(cid))
 
     plt.show()

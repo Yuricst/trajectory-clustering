@@ -1,3 +1,4 @@
+"""Test script for basic visualization of the data."""
 import json
 import os
 import sys

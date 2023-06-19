@@ -1,4 +1,4 @@
-
+"""Test script for 4D distance calculation."""
 import os
 import sys
 import numpy as np
