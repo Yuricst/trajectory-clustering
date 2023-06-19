@@ -12,6 +12,7 @@ def visualize_LET(data, P=5, r0=.0):
     ax = fig.add_subplot(111, projection='3d')
 
     for key in data.keys():
+        print(key)
         trajectory = np.array(data[key]['states'])
         x = trajectory[:, 0]
         y = trajectory[:, 1]
