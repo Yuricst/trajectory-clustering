@@ -1,5 +1,5 @@
 # trajectory-clustering
-Python library for trajectory clustering. 
+Machine learning library for low-energy transfer. 
 
 
 ### Notes

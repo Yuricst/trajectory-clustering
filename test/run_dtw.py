@@ -8,18 +8,8 @@ import random
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from src.dtw import dtw
 from src.dist import dist4D
+from src.preprocessing import get4ddata
 from src.vis import *
-
-def get4ddata(data: dict):
-        n = len(data)
-        out = {}
-        for i, key in enumerate(data.keys()):
-            trajectory = np.array(data[key]['states'])
-            time = np.array(data[key]['Î¸s'])
-
-            out[key] = np.array([trajectory[:, 0], trajectory[:, 1], trajectory[:, 2], time]).T
-
-        return out
 
 
 if __name__=="__main__":
