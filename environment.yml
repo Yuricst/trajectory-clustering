@@ -1,4 +1,4 @@
-name: mllet
+name: ptc
 channels:
   - conda-forge
   - anaconda
@@ -6,6 +6,7 @@ dependencies:
   - python=3.8
   - tqdm
   - numpy
+  - numba
   - pandas
   - matplotlib
   - scikit-learn
