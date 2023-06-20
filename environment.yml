@@ -2,6 +2,7 @@ name: ptc
 channels:
   - conda-forge
   - anaconda
+  - numba
 dependencies:
   - python=3.8
   - tqdm
