@@ -18,4 +18,6 @@ def dist4D(x: np.ndarray, y: np.ndarray, P: float=np.pi*2)->float:
     """
     ds = np.linalg.norm(x[:3] - y[:3], ord=2)
     dt = np.abs(x[3] % P - y[3] % P)
+    if dt > P / 2:
+        dt = P - dt
     return np.sqrt(ds**2 + dt**2)
