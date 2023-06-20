@@ -48,6 +48,9 @@ cd trajectory-clustering/test
 python run_dtw.py
 ```
 
+### Questions we want to answer later
+- What is the optimal scaling between space and time to add their distances?
+  - This is answered by defining the clustering objective. Indeed, some visibility index may naturary integrate space and time; visibility is a function of space and time. 
 
 
 #### Notes
