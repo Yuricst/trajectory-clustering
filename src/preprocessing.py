@@ -11,10 +11,11 @@ def get4ddata(data: dict):
     for i, key in enumerate(data.keys()):
         try:
             trajectory = np.array(data[key]['states'])
-            time = np.array(data[key]['Î¸s'])
+            time = np.array(data[key]['θs'])
 
             out[key] = np.array([trajectory[:, 0], trajectory[:, 1], trajectory[:, 2], time]).T
         except:
             print(f"Skipped key {key}")
+            print(data[key].keys())
 
     return out

@@ -211,7 +211,7 @@ def vislet_xyt_group(data: dict, cluster_dict: dict, P=2*np.pi, line_width=1.0):
         trajectory = np.array(data[k]['states'])
         x = trajectory[:, 0]
         y = trajectory[:, 1]
-        time = np.array(data[k]['Î¸s'])
+        time = np.array(data[k]['θs'])
 
         # The first subplot is for all trajectories
         ax = axes[0, 0]
@@ -258,7 +258,7 @@ def vislet_xyt_cycle_group(data: dict, cluster_dict: dict, P=2*np.pi, line_width
         trajectory = np.array(data[k]['states'])
         x = trajectory[:, 0]
         y = trajectory[:, 1]
-        time = np.array(data[k]['Î¸s'])
+        time = np.array(data[k]['θs'])
         # Convert to cylindrical space
         theta = 2 * np.pi * time / P
 

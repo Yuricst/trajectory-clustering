@@ -13,9 +13,9 @@ from src.dist import dist4D
 from src.dtw import dtw
 
 # load file
-filepath = r"D:\khrg_data\2023_amos\lets_pre_clustering_epoch_100km_target_idx1_1757_polar8595.json"
-#filepath = r"D:\khrg_data\2023_amos\lets_pre_clustering_full_epoch_100km_target_idx1_1757_polar8595.json"
-#"../data/lets_pre_clustering_epoch_100km_target_idx1_1757_polar8595.json"
+#filepath = r"/home/yshimane3/Documents/data/amos2023/lets_pre_clustering_epoch_100km_target_idx1_1757_polar8595.json"   # reduced data
+filepath = r"/home/yshimane3/Documents/data/amos2023/lets_pre_clustering_full_epoch_100km_target_idx1_1757_polar8595.json"   # full data
+
 with open(filepath, 'r') as file:
     data = json.load(file)
 
@@ -46,10 +46,11 @@ if __name__=="__main__":
             # dist_mat[j, i] = dist_mat[i, j]
             # pbar.update(1)
 
-    with Pool(processes=2) as pool:
+    with Pool(processes=cpu_count()) as pool:
         results = pool.starmap(run_parallel, tqdm(arguments))
     for res in results:
-        dist_mat[res[0]] = res[1]
+        dist_mat[res[0][0], res[0][1]] = res[1]
+        dist_mat[res[0][1], res[0][0]] = res[1]
 
     # Save distance matrix
     np.save(os.path.join(out_dir, "dist_mat.npy"), dist_mat)

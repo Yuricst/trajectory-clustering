@@ -11,9 +11,11 @@ from src.vis import *
 
 if __name__=="__main__":
     # load LET data
-    filepath = "../data/lets_pre_clustering_epoch_100km_target_idx1_1757_polar8595.json"
+    #filepath = "../data/lets_pre_clustering_epoch_100km_target_idx1_1757_polar8595.json"
+    filepath = r"/home/yshimane3/Documents/data/amos2023/lets_pre_clustering_epoch_100km_target_idx1_1757_polar8595.json"
+    
     with open(filepath, 'r') as file:
-        data = json.load(file)
+   	    data = json.load(file)
 
     # load clustering result
     with open("../out/cluster_dict.json", 'r') as file:
