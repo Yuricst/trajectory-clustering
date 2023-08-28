@@ -18,7 +18,9 @@ if __name__=="__main__":
     os.makedirs(out_dir, exist_ok=True)
 
     # load file
-    filepath = "../data/lets_pre_clustering_epoch_100km_target_idx1_1757_polar8595.json"
+    #filepath = r"D:\khrg_data\2023_amos\lets_pre_clustering_epoch_100km_target_idx1_1757_polar8595.json"
+    filepath = r"D:\khrg_data\2023_amos\lets_pre_clustering_full_epoch_100km_target_idx1_1757_polar8595.json"
+    #"../data/lets_pre_clustering_epoch_100km_target_idx1_1757_polar8595.json"
     with open(filepath, 'r') as file:
         data = json.load(file)
 
